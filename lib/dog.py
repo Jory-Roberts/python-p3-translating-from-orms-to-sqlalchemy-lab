@@ -1,21 +1,19 @@
-from sqlalchemy import create_engine
-from models import Dog
+from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from models import Base, Dog
+from testing.conftest import db_dir, SQLITE_URL
 
-SQLITE_URL = "sqlite:///:memory:"
 engine = create_engine(SQLITE_URL)
+Base.metadata.create_all(engine)
+Session = sessionmaker(engine)
+
+Base = declarative_base()
 
 
-def create_table(base, engine):
-    sql = """CREATE TABLE IF NOT EXISTS dogs(
-        id INTEGER PRIMARY KEY,
-        name TEXT,
-        breed TEXT
-        );
-        """
-    return engine
-
-
-create_table(Dog, engine)
+def create_table(Base, engine):
+    if __name__ == "__main__":
+        Base.metadata.create.all(engine)
 
 
 def save(session, dog):
